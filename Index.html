@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Revive — Badminton League 2025 Gallery</title>
+  <style>
+    body {
+      font-family: system-ui, Segoe UI, Roboto, sans-serif;
+      background: #f8f9fa;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0d6efd;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    .intro {
+      max-width: 800px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .gallery img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .gallery img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+      margin: 30px 0;
+    }
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+    .lightbox span {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>🏸 Team Revive — Badminton League 2025</header>
+
+  <div class="intro">
+    <p><strong>Team Revive</strong> (Olympia Opaline, Chennai) runs monthly food drives for the homeless, supports flood relief, and organizes community events — including dance, games, and sports.</p>
+    <p>This year we participated in the <strong>Annual Badminton Tournament</strong> at Ultimate Sports, Navalur, where 10 teams competed in a round-robin format. Our team proudly reached the semifinals and finals! 🎉</p>
+  </div>
+
+  <div class="gallery" id="gallery">
+    <p id="loading">Loading images from GitHub...</p>
+  </div>
+
+  <footer>
+    © 2025 Team Revive | Made with ❤️ for the Badminton League
+  </footer>
+
+  <!-- Simple lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span id="closeBtn">&times;</span>
+    <img src="" alt="Preview">
+  </div>
+
+  <script>
+    const owner = "ManimaranRepos";
+    const repo = "Team-Revive-badminton-League-2025";
+    const branch = "main";
+
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents`;
+
+    async function fetchImages() {
+      const gallery = document.getElementById("gallery");
+      try {
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error("GitHub API error");
+        const data = await res.json();
+
+        const images = data.filter(
+          file => /\.(jpe?g|png|webp)$/i.test(file.name)
+        );
+
+        if (images.length === 0) {
+          gallery.innerHTML = "<p>No images found in the repository yet.</p>";
+          return;
+        }
+
+        gallery.innerHTML = "";
+        images.forEach(img => {
+          const imageElem = document.createElement("img");
+          // Use raw.githubusercontent URL for display
+          imageElem.src = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${img.name}`;
+          imageElem.alt = img.name;
+          gallery.appendChild(imageElem);
+        });
+
+        // Enable lightbox
+        enableLightbox();
+      } catch (err) {
+        console.error(err);
+        gallery.innerHTML =
+          "<p style='color:red'>⚠️ Unable to load images. Try again later.</p>";
+      }
+    }
+
+    function enableLightbox() {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = lightbox.querySelector("img");
+      const closeBtn = document.getElementById("closeBtn");
+
+      document.querySelectorAll(".gallery img").forEach(img => {
+        img.addEventListener("click", () => {
+          lightbox.classList.add("active");
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+        });
+      });
+
+      closeBtn.addEventListener("click", () => {
+        lightbox.classList.remove("active");
+        lightboxImg.src = "";
+      });
+
+      lightbox.addEventListener("click", e => {
+        if (e.target === lightbox) {
+          lightbox.classList.remove("active");
+          lightboxImg.src = "";
+        }
+      });
+    }
+
+    fetchImages();
+  </script>
+
+</body>
+</html>
