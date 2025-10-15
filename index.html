@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Team Revive — Badminton League 2025 Gallery</title>
   <style>
+    @keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.gallery img {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
     body {
       font-family: system-ui, Segoe UI, Roboto, sans-serif;
       background: #f8f9fa;
@@ -13,13 +21,14 @@
       padding: 0;
     }
     header {
-      background: #0d6efd;
+      background: linear-gradient(45deg, #0d6efd, #00bcd4);
       color: #fff;
       padding: 1rem;
       text-align: center;
       font-size: 1.6rem;
       font-weight: 600;
     }
+   
     .intro {
       max-width: 800px;
       margin: 1.5rem auto;
@@ -92,19 +101,43 @@
 <body>
 
   <header>🏸 Team Revive — Badminton League 2025</header>
-
   <div class="intro">
-    <p><strong>Team Revive</strong> (Olympia Opaline, Chennai) runs monthly food drives for the homeless, supports flood relief, and organizes community events — including dance, games, and sports.</p>
-    <p>This year we participated in the <strong>Annual Badminton Tournament</strong> at Ultimate Sports, Navalur, where 10 teams competed in a round-robin format. Our team proudly reached the semifinals and finals! 🎉</p>
-  </div>
+  <h2>🏸 Welcome to the Team Revive League 2025!</h2>
+  <p>
+    We’re not just smashing shuttles — we’re smashing goals, laughter, and snacks!
+    From long rallies to late-night samosas, <strong>Team Revive</strong> plays with heart, hustle, and humor.
+  </p>
+  <p>
+    Whether we win or lose, our motto stays strong:
+    <em>"Serve strong, laugh louder, and celebrate harder!"</em> 😄
+  </p>
+</div>
+
 
   <div class="gallery" id="gallery">
     <p id="loading">Loading images from GitHub...</p>
   </div>
+<section style="background:#fff;padding:30px 20px;text-align:center;border-top:1px solid #eee;">
+  <h2>🔥 Our Motto</h2>
+  <p style="font-size:1.1rem;max-width:700px;margin:auto;color:#444;">
+    <strong>"Play. Cheer. Repeat."</strong> — That’s how Team Revive rolls!
+    We believe every drop shot deserves a high-five and every win deserves a biryani.
+  </p>
 
-  <footer>
-    © 2025 Team Revive | Made with ❤️ for the Badminton League
-  </footer>
+  <h3 style="margin-top:2rem;">🏆 2025 Highlights</h3>
+  <ul style="list-style:none;padding:0;font-size:1.05rem;line-height:1.8;color:#333;">
+    <li>🥇 Reached the <strong>Finals</strong> at Ultimate Sports, Navalur</li>
+    <li>🤝 Played alongside 10 amazing teams</li>
+    <li>📸 Captured 100+ smiles and victory poses</li>
+    <li>🍔 Ended the night with team dinner and unlimited jokes!</li>
+  </ul>
+</section>
+
+  <footer style="background:#0d6efd;color:#fff;padding:20px;text-align:center;">
+  <p>🏸 <strong>Team Revive</strong> — Where every drop counts, and every laugh echoes!</p>
+  <p style="font-size:0.9rem;margin-top:10px;">Made with ❤️ and 🏸 in Chennai.</p>
+</footer>
+
 
   <!-- Simple lightbox -->
   <div class="lightbox" id="lightbox">
@@ -113,6 +146,36 @@
   </div>
 
   <script>
+
+   
+  // After your fetchImages() finishes loading images:
+  const funnyCaptions = [
+    "🔥 Smash Mode: Activated!",
+    "😎 Too cool to miss a shot!",
+    "🏆 Winners take selfies first!",
+    "😂 That ‘almost’ win moment!",
+    "💪 Team Revive never gives up!",
+    "🎯 Precision + Passion = Perfection!",
+    "🍕 Post-match carbs loading!",
+    "🏸 One team. One dream!"
+  ];
+
+  // Wait for images to load, then add captions
+  setTimeout(() => {
+    const gallery = document.querySelector('.gallery');
+    if (!gallery) return;
+    document.querySelectorAll('.gallery img').forEach((img, i) => {
+      const caption = document.createElement('p');
+      caption.textContent = funnyCaptions[i % funnyCaptions.length];
+      caption.style = "margin-top:5px;font-size:0.9rem;text-align:center;color:#444;";
+      const wrapper = document.createElement('div');
+      wrapper.appendChild(img.cloneNode());
+      wrapper.appendChild(caption);
+      img.replaceWith(wrapper);
+    });
+  }, 1500);
+
+
     const owner = "ManimaranRepos";
     const repo = "Team-Revive-badminton-League-2025";
     const branch = "main";
@@ -181,7 +244,32 @@
 
     fetchImages();
   </script>
+  <audio id="bgm" src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Scott_Holmes_Music/Sport/Scott_Holmes_Music_-_Happy_Sport.mp3" loop></audio>
+<div style="text-align:center;margin:20px;">
+  <button id="toggleMusic" style="background:#0d6efd;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;">
+    🎵 Play Background Music
+  </button>
+</div>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const toggle = document.getElementById('toggleMusic');
+  let playing = false;
+
+  toggle.addEventListener('click', () => {
+    if (!playing) {
+      bgm.play();
+      toggle.textContent = "🔇 Pause Music";
+    } else {
+      bgm.pause();
+      toggle.textContent = "🎵 Play Background Music";
+    }
+    playing = !playing;
+  });
+</script>
+
 
 </body>
 </html>
+
 
